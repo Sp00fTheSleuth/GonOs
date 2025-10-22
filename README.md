@@ -29,3 +29,8 @@
 These are a few ascii art amoebas you should remember because there will be a lot of easter eggs
 containing these.
 ---
+
+_____.______ <-- amoeba
+_____.z_____ <-- sleeping ameoba
+      .
+_____o=o____ <-- ameoba skateboarding
