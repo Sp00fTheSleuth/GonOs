@@ -22,4 +22,10 @@
  `|||,,     , |||
    ``|||||||||"'
 
+
 ``` 
+
+---
+These are a few ascii art amoebas you should remember because there will be a lot of easter eggs
+containing these.
+---
