@@ -37,5 +37,5 @@ _____.z_____ <-- sleeping ameoba
       .
 _____o=o____ <-- ameoba skateboarding
 
-____./}_____ <-- communist amoeba
+____.☭_____ <-- communist amoeba
 ```
