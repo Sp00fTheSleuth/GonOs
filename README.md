@@ -1,3 +1,4 @@
+---
               ,,,,,,,,
            ,|||````||||
      ,,,,||||'        ||,
@@ -20,7 +21,7 @@
 |||,          |||
  `|||,,     , |||
    ``|||||||||"'
-
+---
 
      This is Gon, he is an amoeba (I know peak right?),
      our whole system is built around him,
