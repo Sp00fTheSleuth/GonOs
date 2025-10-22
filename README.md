@@ -9,11 +9,11 @@
 ||     :::::::'           ``|||,
 ||,     :::::'               `|||
 `||,                           |||      <-- This is Gon, he is an amoeba (I know peak right?),
- `|||,       ||          ||    ,||          our whole system is built around him,
-   `||                        |||`          now more about the system, we (me and some friends)
-    ||                   ,,,||||            are building this, for devs that want to be productive but also
-    ||              ,||||||```              want to have some fun while coding. I hope you like it :)
-   ,||          ,,|||||`
+ `|||,       ||          ||    ,||          our whole system is built around him.
+   `||                        |||`          Now more about the system, we (me and some friends)
+    ||                   ,,,||||            are building this script to make a completely custom arch distro,
+    ||              ,||||||```              for devs that want to be productive but also
+   ,||          ,,|||||`                    want to have some fun while coding. I hope you like it :)
   ,||`   ||    |||`
  |||`          ||
 ,||            ||
