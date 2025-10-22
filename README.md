@@ -32,8 +32,8 @@ containing these.
 
 ```
 _____.______ <-- amoeba
+
 _____.z_____ <-- sleeping ameoba
       .
 _____o=o____ <-- ameoba skateboarding
-
 ```
