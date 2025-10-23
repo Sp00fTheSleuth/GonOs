@@ -23,32 +23,32 @@ if test -f /sys/firmware/efi/efivars; then # Test if file exists
     echo "File exists, so we are in UEFI"
 
     #configs for formating
-    DISK=/dev/$userInput
-    EFI_SIZE="550MiB"
-    ROOT_SIZE="100%"
+    disk=/dev/$userInput
+    efi_size="550MiB"
+    root_size="100%"
 
     #========warning=about=data=loss========
-    echo ">>> This will destroy all data on $DISK!"
+    echo ">>> This will destroy all data on $disk!"
     read -rp "Type 'YES' to continue: " confirm
     [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
     # === CREATE PARTITIONS ===
     echo ">>> Wiping existing partition table..."
-    parted --script "$DISK" mklabel gpt
+    parted --script "$disk" mklabel gpt
 
     echo ">>> Creating EFI system partition..."
-    parted --script "$DISK" mkpart ESP fat32 1MiB "$EFI_SIZE"
-    parted --script "$DISK" set 1 esp on
+    parted --script "$disk" mkpart ESP fat32 1MiB "$efi_size"
+    parted --script "$disk" set 1 esp on
 
     echo ">>> Creating root partition..."
-    parted --script "$DISK" mkpart primary ext4 "$EFI_SIZE" "$ROOT_SIZE"
+    parted --script "$disk" mkpart primary ext4 "$efi_size" "$root_size"
 
     # === SHOW RESULT ===
-    parted "$DISK" print
+    parted "$disk" print
 
     # ===formatting-partitions===
-    EFI_PART="${DISK}1"
-    ROOT_PART="${DISK}2"
+    EFI_PART="${disk}1"
+    ROOT_PART="${disk}2"
 
     echo ">>> Formatting partitions..."
     mkfs.fat -F32 "$EFI_PART"
@@ -63,37 +63,37 @@ else
     echo "File doesn't exist, so we are in Legacy BIOS"
 
     #configs for formating
-    DISK = /dev/$userInput
-    SWAP_SIZE = "2GiB"
-    ROOT_SIZE = "100%"
+    disk = /dev/$userInput
+    swap_size = "2GiB"
+    root_size = "100%"
 
     #========warning=about=data=loss========
-    echo "The next step will erase all data on $DISK"
+    echo "The next step will erase all data on $disk"
     read -rp "Type 'YES' to continue: " confirm
     [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
     #=========create partitions=============
     echo ">>> Creating new MBR partition table..."
-    parted --script "$DISK" mklabel msdos
+    parted --script "$disk" mklabel msdos
 
     echo ">>> Creating root partition..."
-    parted --script "$DISK" mkpart primary ext4 1MiB "-${SWAP_SIZE}"
-    parted --script "$DISK" set 1 boot on
+    parted --script "$disk" mkpart primary ext4 1MiB "-${swap_size}"
+    parted --script "$disk" set 1 boot on
 
     echo ">>> Creating swap partition..."
-    parted --script "$DISK" mkpart primary linux-swap "-${SWAP_SIZE}" 100%
+    parted --script "$disk" mkpart primary linux-swap "-${swap_size}" 100%
 
     # === SHOW RESULT ===
-    parted "$DISK" print
+    parted "$disk" print
 
     
     #===formatting=======
-    mkfs.ext4 $DISK
-    echo "formatted $DISK"
+    mkfs.ext4 $disk
+    echo "formatted $disk"
     
     #===mounting========
-    mount $DISK /mnt
-    echo "mounted $DISK"
+    mount $disk /mnt
+    echo "mounted $disk"
 fi
 
 #====installing-base-system======
