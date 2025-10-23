@@ -2,15 +2,23 @@
 
 set -euo pipefail
 
+echo ""
+echo ""
+
 cat InstallerAsciiArt/Greeting.txt
 
 echo ""
+echo ""
+
+echo "These are the available disks:"
 echo ""
 
 #===========choosing disk===============
 echo "******************************"
 lsblk -d -o NAME,SIZE,TYPE | grep 'disk'
 echo "******************************"
+
+echo ""
 
 read -p "Enter the correct disk: " userInput
 
@@ -25,27 +33,35 @@ SWAP_PART="${disk}2"
 
 if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
    
+    echo ""
     echo "File exists, so we are in UEFI"
 
     #configs for formating
     root_size="100%"
+
+    echo ""
+    echo ""
 
     #========warning=about=data=loss========
     echo ">>> This will destroy all data on $disk!"
     read -rp "Type 'YES' to continue: " confirm
     [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
+    echo ""
     # === CREATE PARTITIONS ===
     echo ">>> Wiping existing partition table..."
     parted --script "$disk" mklabel gpt
 
+    echo ""
     echo ">>> Creating EFI system partition..."
     parted --script "$disk" mkpart ESP fat32 1MiB "$efi_size"
     parted --script "$disk" set 1 esp on
 
+    echo ""
     echo ">>> Creating root partition..."
     parted --script "$disk" mkpart primary ext4 "$efi_size" "$root_size"
 
+    echo ""
     # === SHOW RESULT ===
     parted "$disk" print
 
@@ -53,6 +69,7 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
     EFI_PART="${disk}1"
     ROOT_PART="${disk}2"
 
+    echo ""
     echo ">>> Formatting partitions..."
     mkfs.fat -F32 "$EFI_PART"
     mkfs.ext4 -F "$ROOT_PART"
@@ -63,22 +80,26 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
     mount $EFI_PART /mnt/boot
 
 else
+    echo ""
     echo "File doesn't exist, so we are in Legacy BIOS"
 
-    
+    echo ""
     #========warning=about=data=loss========
     echo "The next step will erase all data on $disk"
     read -rp "Type 'YES' to continue: " confirm
     [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
+    echo ""
     #=========create partitions=============
     echo ">>> Creating new MBR partition table..."
     parted --script "$disk" mklabel msdos
 
+    echo ""
     echo ">>> Creating root partition..."
     parted --script "$disk" mkpart primary ext4 1MiB 2GiB
     parted --script "$disk" set 1 boot on
 
+    echo ""
     echo ">>> Creating swap partition..."
     parted --script "$disk" mkpart primary linux-swap 2GiB 100%
 
@@ -120,9 +141,13 @@ echo $hostname > /etc/hostname
 echo "127.0.1.1   arch.localdomain $hostname" > /etc/hosts
 
 #====setting-root-password========
+echo ""
+echo ""
 read -p "Enter the root password: " rootPwd
 echo "root:$rootPwd" | chpasswd
 
+echo ""
+echo ""
 #===== creating user===========
 read -p "Enter the name of the user: " username
 echo ""
@@ -133,14 +158,18 @@ echo "$username:$userPwd" | chpasswd
 
 #====installing-bootloader========
 if test -f /sys/firmware/efi/efivars; then 
+    echo ""
     echo "Installing bootloader for UEFI"
+    echo ""
 
     pacman -S grub efibootmgr-
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     grub-mkconfig -o /boot/grub/grub.cfg
 
 else
+    echo ""
     echo "Installing bootloader for BIOS"
+    echo ""
 
     pacman -S grub
     grub-install --target=i386-pc /dev/sda
