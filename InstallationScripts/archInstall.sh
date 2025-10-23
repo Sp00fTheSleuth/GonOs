@@ -12,7 +12,7 @@ echo "******************************"
 lsblk -d -o NAME,SIZE,TYPE | grep 'disk'
 echo "******************************"
 
-read -P "Enter the correct disk: " userInput
+read -p "Enter the correct disk: " userInput
 
 
 
