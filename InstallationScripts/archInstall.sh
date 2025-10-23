@@ -39,13 +39,9 @@ else
 
     echo ">>> Creating new MBR partition table..."
     parted --script "$disk" mklabel msdos
+    parted --script "$disk" mkpart primary ext4 1MiB 100%
+    parted --script "$disk" mkpart primary linux-swap 1001MiB 3025MiB
 
-    echo ">>> Creating root partition..."
-    parted --script "$disk" mkpart primary ext4 1MiB -${swap_size}
-    parted --script "$disk" set 1 boot on
-
-    echo ">>> Creating swap partition..."
-    parted --script "$disk" mkpart primary linux-swap -${swap_size} 100%
 
     ROOT_PART="${disk}1"
     SWAP_PART="${disk}2"
