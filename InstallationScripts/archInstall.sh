@@ -76,11 +76,11 @@ else
     parted --script "$disk" mklabel msdos
 
     echo ">>> Creating root partition..."
-    parted --script "$disk" mkpart primary ext4 1MiB "-2GiB"
+    parted --script "$disk" mkpart primary ext4 1MiB -2GiB
     parted --script "$disk" set 1 boot on
 
     echo ">>> Creating swap partition..."
-    parted --script "$disk" mkpart primary linux-swap "--2GiB" 100%
+    parted --script "$disk" mkpart primary linux-swap -2GiB 100%
 
     # === SHOW RESULT ===
     parted "$disk" print
