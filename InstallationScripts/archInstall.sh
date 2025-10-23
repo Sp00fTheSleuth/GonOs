@@ -23,7 +23,7 @@ if test -f /sys/firmware/efi/efivars; then # Test if file exists
     echo "File exists, so we are in UEFI"
 
     #configs for formating
-    disk=/dev/$userInput
+    disk="/dev/$userInput"
     efi_size="550MiB"
     root_size="100%"
 
