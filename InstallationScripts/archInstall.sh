@@ -20,12 +20,12 @@ read -p "Enter the correct disk: " userInput
 
 if test -f /sys/firmware/efi/efivars; then # Test if file exists
    
-    echo File exists, so we are in UEFI
+    echo "File exists, so we are in UEFI"
 
     #configs for formating
-    DISK = /dev/$userInput
-    EFI_SIZE = "550MiB"
-    ROOT_SIZE = "100%"
+    DISK=/dev/$userInput
+    EFI_SIZE="550MiB"
+    ROOT_SIZE="100%"
 
     #========warning=about=data=loss========
     echo ">>> This will destroy all data on $DISK!"
