@@ -62,9 +62,7 @@ if test -f /sys/firmware/efi/efivars; then # Test if file exists
 else
     echo "File doesn't exist, so we are in Legacy BIOS"
 
-    #configs for formating
-    disk = /dev/$userInput
-
+    
     #========warning=about=data=loss========
     echo "The next step will erase all data on $disk"
     read -rp "Type 'YES' to continue: " confirm
