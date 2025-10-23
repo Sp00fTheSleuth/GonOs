@@ -37,10 +37,15 @@ else
     read -rp "Type 'YES' to continue: " confirm
     [[ "$confirm" == "YES" ]] || exit 1
 
+    echo ">>> Creating new MBR partition table..."
     parted --script "$disk" mklabel msdos
-    parted --script "$disk" mkpart primary ext4 1MiB "-${swap_size}"
+
+    echo ">>> Creating root partition..."
+    parted --script "$disk" mkpart primary ext4 1MiB -${swap_size}
     parted --script "$disk" set 1 boot on
-    parted --script "$disk" mkpart primary linux-swap "-${swap_size}" 100%
+
+    echo ">>> Creating swap partition..."
+    parted --script "$disk" mkpart primary linux-swap -${swap_size} 100%
 
     ROOT_PART="${disk}1"
     SWAP_PART="${disk}2"
@@ -50,6 +55,7 @@ else
     swapon "$SWAP_PART"
 
     mount "$ROOT_PART" /mnt
+
 fi
 
 pacstrap /mnt base linux linux-firmware vim networkmanager
