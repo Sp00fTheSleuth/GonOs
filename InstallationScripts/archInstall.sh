@@ -14,7 +14,9 @@ echo "******************************"
 
 read -p "Enter the correct disk: " userInput
 
-
+disk="/dev/$userInput"
+efi_size="550MiB"
+swap_size="2GiB"
 
 
 
@@ -23,8 +25,6 @@ if test -f /sys/firmware/efi/efivars; then # Test if file exists
     echo "File exists, so we are in UEFI"
 
     #configs for formating
-    disk="/dev/$userInput"
-    efi_size="550MiB"
     root_size="100%"
 
     #========warning=about=data=loss========
@@ -64,8 +64,6 @@ else
 
     #configs for formating
     disk = /dev/$userInput
-    swap_size = "2GiB"
-    root_size = "100%"
 
     #========warning=about=data=loss========
     echo "The next step will erase all data on $disk"
