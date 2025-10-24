@@ -16,12 +16,11 @@ echo ""
 #===========choosing disk===============
 echo "******************************"
 lsblk -d -o NAME,SIZE,TYPE | grep 'disk'
-echo "******************************"
-
-echo ""
-
+1
 echo ""
 read -p "Enter the correct disk: " userInput
+echo ""
+echo "******************************"
 
 echo ""
 echo "******************************"
@@ -39,8 +38,16 @@ echo ""
 echo "******************************"
 #===== creating user===========
 read -p "Enter the name of the user: " username
+echo ""
 read -p "Enter the password: " userPwd
 echo "******************************"
+
+disk="/dev/$userInput"
+efi_size="550MiB"
+swap_size="2GiB"
+
+ROOT_PART="${disk}1"
+SWAP_PART="${disk}2"
 echo ""
 
 echo "******************************"
@@ -51,12 +58,6 @@ echo "******************************"
 [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
 
-disk="/dev/$userInput"
-efi_size="550MiB"
-swap_size="2GiB"
-
-ROOT_PART="${disk}1"
-SWAP_PART="${disk}2"
 
 
 
