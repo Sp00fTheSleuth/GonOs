@@ -24,6 +24,7 @@ echo ""
 read -p "Enter the correct disk: " userInput
 
 echo ""
+echo "******************************"
 #======setting-hostname===========
 read -p "Please enter the host name: " hostname
 
@@ -32,12 +33,23 @@ echo $hostname > /etc/hostname
 #====setting-root-password========
 echo ""
 read -p "Enter the root password: " rootPwd
-
+echo "******************************"
 echo ""
 
+echo "******************************"
 #===== creating user===========
 read -p "Enter the name of the user: " username
 read -p "Enter the password: " userPwd
+echo "******************************"
+echo ""
+
+echo "******************************"
+#========warning=about=data=loss========
+echo "!!! The next step will erase all data on $disk !!!"
+read -rp "Type 'YES' to continue: " confirm
+echo "******************************"
+[[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
+
 
 disk="/dev/$userInput"
 efi_size="550MiB"
@@ -55,14 +67,6 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
 
     #configs for formating
     root_size="100%"
-
-    echo ""
-    echo ""
-
-    #========warning=about=data=loss========
-    echo ">>> This will destroy all data on $disk!"
-    read -rp "Type 'YES' to continue: " confirm
-    [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
     echo ""
     # === CREATE PARTITIONS ===
@@ -100,10 +104,6 @@ else
     echo "File doesn't exist, so we are in Legacy BIOS"
 
     echo ""
-    #========warning=about=data=loss========
-    echo "The next step will erase all data on $disk"
-    read -rp "Type 'YES' to continue: " confirm
-    [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
     echo ""
     #=========create partitions=============
