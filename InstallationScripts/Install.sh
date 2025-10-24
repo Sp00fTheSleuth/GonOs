@@ -20,7 +20,21 @@ echo "******************************"
 
 echo ""
 
+echo ""
 read -p "Enter the correct disk: " userInput
+
+#======setting-hostname===========
+read -p "Please enter the host name: " hostname
+
+echo $hostname > /etc/hostname
+
+#====setting-root-password========
+echo ""
+read -p "Enter the root password: " rootPwd
+
+#===== creating user===========
+read -p "Enter the name of the user: " username
+read -p "Enter the password: " userPwd
 
 disk="/dev/$userInput"
 efi_size="550MiB"
@@ -120,20 +134,6 @@ pacstrap /mnt base linux linux-firmware vim networkmanager
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
 
-#======setting-hostname===========
-read -p "Please enter the host name: " hostname
-
-echo $hostname > /etc/hostname
-
-#====setting-root-password========
-echo ""
-echo ""
-read -p "Enter the root password: " rootPwd
-
-#===== creating user===========
-read -p "Enter the name of the user: " username
-echo ""
-read -p "Enter the password: " userPwd
 
 
 #====chroot into the system======
@@ -186,7 +186,19 @@ systemctl enable NetworkManager
 exit
 EOF
 
-umount -R /mnt
-shutdown now
+echo ""
+echo ""
 
+echo "Installation of base system finsished!"
+
+umount -R /mnt
+
+#======ask-if-shutdown-or-reboot=========
+read -p "Do you want to shutdown or reboot" rebootOrShutdown
+
+if $rebootOrShutdown == "reboot"; then 
+    reboot
+else
+    shutdown now
+fi
 

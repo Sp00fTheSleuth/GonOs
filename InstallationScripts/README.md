@@ -1,0 +1,1 @@
+The Install.sh is the installation file you can run it with "sudo bash Install.sh"
