@@ -187,6 +187,6 @@ exit
 EOF
 
 umount -R /mnt
-reboot
+shutdown now
 
 
