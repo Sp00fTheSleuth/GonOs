@@ -23,6 +23,7 @@ echo ""
 echo ""
 read -p "Enter the correct disk: " userInput
 
+echo ""
 #======setting-hostname===========
 read -p "Please enter the host name: " hostname
 
@@ -31,6 +32,8 @@ echo $hostname > /etc/hostname
 #====setting-root-password========
 echo ""
 read -p "Enter the root password: " rootPwd
+
+echo ""
 
 #===== creating user===========
 read -p "Enter the name of the user: " username
@@ -129,7 +132,7 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager
+pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch 
 
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -193,12 +196,16 @@ echo "Installation of base system finsished!"
 
 umount -R /mnt
 
+echo ""
+
 #======ask-if-shutdown-or-reboot=========
-read -p "Do you want to shutdown or reboot" rebootOrShutdown
+read -p "Do you want to shutdown or reboot: " rebootOrShutdown
 
 if $rebootOrShutdown == "reboot"; then 
     reboot
-else
+fi
+
+if $rebootOrShutdown == "shutdown"; then
     shutdown now
 fi
 
