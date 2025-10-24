@@ -122,7 +122,7 @@ pacstrap /mnt base linux linux-firmware vim networkmanager
 genfstab -U /mnt >> /mnt/etc/fstab
 
 #====chroot into the system======
-arch-chroot /mnt
+arch-chroot /mnt <<EOF
 
 #====configure locales============
 ln -sf /usr/share/zoneinfo/Region/City /etc/localtim
@@ -179,10 +179,11 @@ fi
 #====enabling-Network-Manager==========
 systemctl enable NetworkManager
 
-#===installing-more-packages===========
-sudo pacman -Syu --needed nano fastfetch
-
 #===exit-and-reboot=====
 exit
+EOF
+
 umount -R /mnt
 reboot
+
+
