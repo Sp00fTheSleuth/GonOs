@@ -196,16 +196,18 @@ echo "Installation of base system finsished!"
 
 umount -R /mnt
 
-echo ""
+shutdown now
 
-#======ask-if-shutdown-or-reboot=========
-read -p "Do you want to shutdown or reboot: " rebootOrShutdown
+# echo ""
 
-if $rebootOrShutdown == "reboot"; then 
-    reboot
-fi
+# #======ask-if-shutdown-or-reboot=========
+# read -p "Do you want to shutdown or reboot: " rebootOrShutdown
 
-if $rebootOrShutdown == "shutdown"; then
-    shutdown now
-fi
+# if $rebootOrShutdown == "reboot"; then 
+#     reboot
+# fi
+
+# if $rebootOrShutdown == "shutdown"; then
+#     shutdown now
+# fi
 
