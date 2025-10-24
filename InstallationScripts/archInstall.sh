@@ -64,10 +64,9 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
     echo ""
     # === SHOW RESULT ===
     parted "$disk" print
-
     # ===formatting-partitions===
-    EFI_PART="${disk}1"
-    ROOT_PART="${disk}2"
+    EFI_PART="${disk}p1"
+    ROOT_PART="${disk}p2"
 
     echo ""
     echo ">>> Formatting partitions..."
