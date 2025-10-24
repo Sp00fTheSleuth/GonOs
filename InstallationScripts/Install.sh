@@ -187,7 +187,7 @@ exit
 EOF
 
 echo ""
-echo ""
+
 
 echo "Installation of base system finsished!"
 
