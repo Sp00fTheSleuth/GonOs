@@ -121,6 +121,22 @@ pacstrap /mnt base linux linux-firmware vim networkmanager
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
 
+#======setting-hostname===========
+read -p "Please enter the host name: " hostname
+
+echo $hostname > /etc/hostname
+
+#====setting-root-password========
+echo ""
+echo ""
+read -p "Enter the root password: " rootPwd
+
+#===== creating user===========
+read -p "Enter the name of the user: " username
+echo ""
+read -p "Enter the password: " userPwd
+
+
 #====chroot into the system======
 arch-chroot /mnt <<EOF
 
@@ -133,25 +149,13 @@ echo "en_US.UTF-8 UTF-8" > /etch/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
-#======setting-hostname===========
-read -p "Please enter the host name: " hostname
-
-echo $hostname > /etc/hostname
 
 echo "127.0.1.1   arch.localdomain $hostname" > /etc/hosts
 
-#====setting-root-password========
-echo ""
-echo ""
-read -p "Enter the root password: " rootPwd
 echo "root:$rootPwd" | chpasswd
 
 echo ""
 echo ""
-#===== creating user===========
-read -p "Enter the name of the user: " username
-echo ""
-read -p "Enter the password: " userPwd
 
 useradd -m -G wheel -s /bin/bash "$username"
 echo "$username:$userPwd" | chpasswd
