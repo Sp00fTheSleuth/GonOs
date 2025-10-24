@@ -16,7 +16,7 @@ echo ""
 #===========choosing disk===============
 echo "******************************"
 lsblk -d -o NAME,SIZE,TYPE | grep 'disk'
-1
+
 echo ""
 read -p "Enter the correct disk: " userInput
 echo ""
