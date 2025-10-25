@@ -162,6 +162,7 @@ echo ""
 
 useradd -m -G wheel -s /bin/bash "$username"
 echo "$username:$userPwd" | chpasswd
+usermod -aG wheel $username
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.tmp
 
