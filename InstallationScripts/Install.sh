@@ -133,7 +133,7 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch 
+pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch sudo 
 
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
