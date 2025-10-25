@@ -8,7 +8,7 @@
 ||     ::::::::           |||,
 ||     :::::::'           ``|||,
 ||,     :::::'               `|||
-`||,                           |||      <-- This is Gon, he is an amoeba (I know peak right?),
+`||,                           |||      <-- This is Gon, he is an amoeba (I know cool right?),
  `|||,       ||          ||    ,||          our whole system is built around him.
    `||                        |||`          
     ||                   ,,,||||            Now more about the system, we (some friends and me)
