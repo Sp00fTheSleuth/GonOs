@@ -12,7 +12,7 @@
  `|||,       ||          ||    ,||          our whole system is built around him.
    `||                        |||`          
     ||                   ,,,||||            Now more about the system, we (some friends and me)
-    ||              ,||||||```              are building this script to make a completely transform arch
+    ||              ,||||||```              are building this script to completely transform arch
    ,||          ,,|||||`                    into a whole other operating system,
   ,||`   ||    |||`                         for devs that want to be productive but also
  |||`          ||                           want to have some fun while coding. We hope you like it :)

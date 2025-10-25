@@ -113,12 +113,12 @@ else
 
     echo ""
     echo ">>> Creating root partition..."
-    parted --script "$disk" mkpart primary ext4 1MiB 10GiB
+    parted --script "$disk" mkpart primary ext4 1MiB 5GiB
     parted --script "$disk" set 1 boot on
 
     echo ""
     echo ">>> Creating swap partition..."
-    parted --script "$disk" mkpart primary linux-swap 10GiB 100%
+    parted --script "$disk" mkpart primary linux-swap 5GiB 100%
 
     # === SHOW RESULT ===
     parted "$disk" print
@@ -133,7 +133,7 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch sudo 
+pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch sudo nano
 
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -163,6 +163,8 @@ echo ""
 useradd -m -G wheel -s /bin/bash "$username"
 echo "$username:$userPwd" | chpasswd
 
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.tmp
+
 #====installing-bootloader========
 if test -f /sys/firmware/efi/efivars; then 
     echo ""
@@ -185,6 +187,7 @@ fi
 
 #====enabling-Network-Manager==========
 systemctl enable NetworkManager
+systemctl start NetworkManager
 
 #===exit-and-reboot=====
 exit
