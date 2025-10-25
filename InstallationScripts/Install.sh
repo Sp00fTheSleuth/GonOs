@@ -162,9 +162,11 @@ echo ""
 
 useradd -m -G wheel -s /bin/bash "$username"
 echo "$username:$userPwd" | chpasswd
-usermod -aG wheel $username
 
-echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.tmp
+echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
+chmod 440 /etc/sudoers.d/wheel
+
+
 
 #====installing-bootloader========
 if test -f /sys/firmware/efi/efivars; then 
