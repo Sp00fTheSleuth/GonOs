@@ -176,7 +176,7 @@ chmod 440 /etc/sudoers.d/wheel
 #====installing additional packages======
 sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
 sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
-sudo pacman -S --noconfirm sddm waybar kitty fastfetch zen-browser
+sudo pacman -S --noconfirm sddm waybar kitty fastfetch
 sudo pacman -S --noconfirm wofi swaybg swaylock swayidle pipewire pipewire-pulse
 
 
