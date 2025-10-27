@@ -173,6 +173,10 @@ echo "$username:$userPwd" | chpasswd
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 chmod 440 /etc/sudoers.d/wheel
 
+#====installing additional packages======
+sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
+sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
+
 #=== BOOTLOADER INSTALLATION ===
 if [ -d /sys/firmware/efi/efivars ]; then
     echo ">>> Installing bootloader for UEFI..."
@@ -186,15 +190,12 @@ else
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-#====installing additional packages======
-sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
-sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
 
 
 #====enable-services
 systemctl enable NetworkManager
 
-systemctl enable --now seatd.service
+systemctl enable seatd.service
 
 
 EOFCHROOT
