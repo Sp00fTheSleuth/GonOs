@@ -138,7 +138,7 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo
+pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo fastfetch
 
 
 #====generating-fstab======
@@ -176,6 +176,7 @@ chmod 440 /etc/sudoers.d/wheel
 #====installing additional packages======
 sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
 sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
+sudo pacman -S --noconfirm sddm
 
 #=== BOOTLOADER INSTALLATION ===
 if [ -d /sys/firmware/efi/efivars ]; then
@@ -193,8 +194,12 @@ fi
 
 
 #====enable-services
+systemctl enable seatd.service
+
 systemctl enable NetworkManager
-#systemctl enable seatd.service
+
+systemctl enable sddm.service
+
 
 
 EOFCHROOT
