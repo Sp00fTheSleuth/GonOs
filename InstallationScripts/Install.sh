@@ -138,68 +138,14 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager fastfetch sudo nano
+pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo
+
+#====installing additional packages======
+pacstrap mesa wayland vulkan-radeon seatd fastfetch 
+pacstrap hyprland xdg-desktop-portal-hyprland
 
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
-
-
-
-#====chroot into the system======
-# arch-chroot /mnt <<EOF
-
-# #====configure locales============
-# ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
-# hwclock --systohc
-
-# echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
-
-# locale-gen
-# echo "LANG=en_US.UTF-8" > /etc/locale.conf
-
-
-# echo "127.0.1.1   arch.localdomain $hostname" > /etc/hosts
-
-# echo "root:$rootPwd" | chpasswd
-
-# echo ""
-# echo ""
-
-# useradd -m -G wheel -s /bin/bash "$username"
-# echo "$username:$userPwd" | chpasswd
-
-# echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
-# chmod 440 /etc/sudoers.d/wheel
-
-
-
-# #====installing-bootloader========
-# if test -f /sys/firmware/efi/efivars; then 
-#     echo ""
-#     echo "Installing bootloader for UEFI"
-#     echo ""
-
-#     pacman -S --noconfirm grub efibootmgr
-#     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-#     grub-mkconfig -o /boot/grub/grub.cfg
-
-# else
-#     echo ""
-#     echo "Installing bootloader for BIOS"
-#     echo ""
-
-#     pacman -S grub
-#     grub-install --target=i386-pc "$disk"
-#     grub-mkconfig -o /boot/grub/grub.cfg
-# fi
-
-# #====enabling-Network-Manager==========
-# systemctl enable NetworkManager
-# systemctl start NetworkManager
-
-# #===exit-and-reboot=====
-# exit
-# EOF
 
 #====configure system inside chroot======
 echo ">>> Configuring system inside chroot..."
@@ -243,8 +189,12 @@ else
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-#=== ENABLE NETWORK ===
+#====enable-services
+
 systemctl enable NetworkManager
+
+systemctl enable --now seatd.service
+
 
 EOFCHROOT
 
