@@ -187,8 +187,8 @@ else
 fi
 
 #====installing additional packages======
-sudo pacman -S --noconfirmation mesa wayland vulkan-radeon seatd
-sudo pacman -S --noconfirmation hyprland xdg-desktop-portal-hyprland
+sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
+sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
 
 
 #====enable-services
