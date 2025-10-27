@@ -176,7 +176,9 @@ chmod 440 /etc/sudoers.d/wheel
 #====installing additional packages======
 sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
 sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
-sudo pacman -S --noconfirm sddm
+sudo pacman -S --noconfirm sddm waybar kitty
+sudo pacman -S --noconfirm wofi swaybg swaylock swayidle pipewire pipewire-pulse
+
 
 #=== BOOTLOADER INSTALLATION ===
 if [ -d /sys/firmware/efi/efivars ]; then
