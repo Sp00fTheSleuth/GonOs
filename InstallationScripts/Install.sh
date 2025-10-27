@@ -140,9 +140,6 @@ fi
 #====installing-base-system======
 pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo
 
-#====installing additional packages======
-pacstrap mesa wayland vulkan-radeon seatd fastfetch 
-pacstrap hyprland xdg-desktop-portal-hyprland
 
 #====generating-fstab======
 genfstab -U /mnt >> /mnt/etc/fstab
@@ -189,8 +186,12 @@ else
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-#====enable-services
+#====installing additional packages======
+sudo pacman -S --noconfirmation mesa wayland vulkan-radeon seatd
+sudo pacman -S --noconfirmation hyprland xdg-desktop-portal-hyprland
 
+
+#====enable-services
 systemctl enable NetworkManager
 
 systemctl enable --now seatd.service
