@@ -138,7 +138,7 @@ else
 fi
 
 #====installing-base-system======
-pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo fastfetch
+pacstrap /mnt base linux linux-firmware vim networkmanager nano sudo 
 
 
 #====generating-fstab======
@@ -176,7 +176,7 @@ chmod 440 /etc/sudoers.d/wheel
 #====installing additional packages======
 sudo pacman -S --noconfirm mesa wayland vulkan-radeon seatd
 sudo pacman -S --noconfirm hyprland xdg-desktop-portal-hyprland
-sudo pacman -S --noconfirm sddm waybar kitty
+sudo pacman -S --noconfirm sddm waybar kitty fastfetch
 sudo pacman -S --noconfirm wofi swaybg swaylock swayidle pipewire pipewire-pulse
 
 
@@ -193,6 +193,8 @@ else
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
+#=====copy-configs=====
+cp -f ../ConfigFiles/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
 
 
 #====enable-services
@@ -207,9 +209,17 @@ systemctl enable sddm.service
 EOFCHROOT
 
 echo ""
+echo ""
+echo ""
+echo ""
+echo ""
 
 
 echo "Installation of base system finished!"
+echo ""
+echo "The computer will now shutdown."
+
+sleep 3
 
 umount -R /mnt
 
