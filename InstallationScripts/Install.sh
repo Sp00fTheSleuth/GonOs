@@ -194,8 +194,7 @@ fi
 
 #====enable-services
 systemctl enable NetworkManager
-
-systemctl enable seatd.service
+#systemctl enable seatd.service
 
 
 EOFCHROOT
