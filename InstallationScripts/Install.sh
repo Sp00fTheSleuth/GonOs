@@ -46,7 +46,7 @@ disk="/dev/$userInput"
 efi_size="550MiB"
 swap_size="2GiB"
 
-ROOT_PART="${disk}1"
+
 SWAP_PART="${disk}2"
 echo ""
 
@@ -87,8 +87,13 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
     # === SHOW RESULT ===
     parted "$disk" print
     # ===formatting-partitions===
-    EFI_PART="${disk}p1"
-    ROOT_PART="${disk}p2"
+    if [[ "$disk" == *"nvme"* ]]; then # this creates the variables based on if its an nvme or not.
+        EFI_PART="${disk}p1"
+        ROOT_PART="${disk}p2"
+    else
+        EFI_PART="${disk}1"
+        ROOT_PART="${disk}2"
+    fi
 
     echo ""
     echo ">>> Formatting partitions..."
@@ -141,65 +146,112 @@ genfstab -U /mnt >> /mnt/etc/fstab
 
 
 #====chroot into the system======
-arch-chroot /mnt <<EOF
+# arch-chroot /mnt <<EOF
 
-#====configure locales============
-ln -sf /usr/share/zoneinfo/Region/City /etc/localtim
+# #====configure locales============
+# ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
+# hwclock --systohc
+
+# echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
+
+# locale-gen
+# echo "LANG=en_US.UTF-8" > /etc/locale.conf
+
+
+# echo "127.0.1.1   arch.localdomain $hostname" > /etc/hosts
+
+# echo "root:$rootPwd" | chpasswd
+
+# echo ""
+# echo ""
+
+# useradd -m -G wheel -s /bin/bash "$username"
+# echo "$username:$userPwd" | chpasswd
+
+# echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
+# chmod 440 /etc/sudoers.d/wheel
+
+
+
+# #====installing-bootloader========
+# if test -f /sys/firmware/efi/efivars; then 
+#     echo ""
+#     echo "Installing bootloader for UEFI"
+#     echo ""
+
+#     pacman -S --noconfirm grub efibootmgr
+#     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+#     grub-mkconfig -o /boot/grub/grub.cfg
+
+# else
+#     echo ""
+#     echo "Installing bootloader for BIOS"
+#     echo ""
+
+#     pacman -S grub
+#     grub-install --target=i386-pc "$disk"
+#     grub-mkconfig -o /boot/grub/grub.cfg
+# fi
+
+# #====enabling-Network-Manager==========
+# systemctl enable NetworkManager
+# systemctl start NetworkManager
+
+# #===exit-and-reboot=====
+# exit
+# EOF
+
+#====configure system inside chroot======
+echo ">>> Configuring system inside chroot..."
+
+# Set timezone, locale, hostname, users, and bootloader
+arch-chroot /mnt /bin/bash -e <<EOFCHROOT
+
+#=== TIMEZONE & CLOCK ===
+ln -sf /usr/share/zoneinfo/Region/City /etc/localtime
 hwclock --systohc
 
-echo "en_US.UTF-8 UTF-8" > /etch/locale.gen
-
+#=== LOCALES ===
+echo "en_US.UTF-8 UTF-8" > /etc/locale.gen
 locale-gen
 echo "LANG=en_US.UTF-8" > /etc/locale.conf
 
+#=== HOSTNAME ===
+echo "$hostname" > /etc/hostname
+echo "127.0.1.1   $hostname.localdomain $hostname" > /etc/hosts
 
-echo "127.0.1.1   arch.localdomain $hostname" > /etc/hosts
-
+#=== ROOT PASSWORD ===
 echo "root:$rootPwd" | chpasswd
 
-echo ""
-echo ""
-
+#=== USER SETUP ===
 useradd -m -G wheel -s /bin/bash "$username"
 echo "$username:$userPwd" | chpasswd
 
 echo "%wheel ALL=(ALL:ALL) ALL" > /etc/sudoers.d/wheel
 chmod 440 /etc/sudoers.d/wheel
 
-
-
-#====installing-bootloader========
-if test -f /sys/firmware/efi/efivars; then 
-    echo ""
-    echo "Installing bootloader for UEFI"
-    echo ""
-
-    pacman -S grub efibootmgr-
+#=== BOOTLOADER INSTALLATION ===
+if [ -d /sys/firmware/efi/efivars ]; then
+    echo ">>> Installing bootloader for UEFI..."
+    pacman -S --noconfirm grub efibootmgr
     grub-install --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
     grub-mkconfig -o /boot/grub/grub.cfg
-
 else
-    echo ""
-    echo "Installing bootloader for BIOS"
-    echo ""
-
-    pacman -S grub
-    grub-install --target=i386-pc /dev/sda
+    echo ">>> Installing bootloader for BIOS..."
+    pacman -S --noconfirm grub
+    grub-install --target=i386-pc "$disk"
     grub-mkconfig -o /boot/grub/grub.cfg
 fi
 
-#====enabling-Network-Manager==========
+#=== ENABLE NETWORK ===
 systemctl enable NetworkManager
-systemctl start NetworkManager
 
-#===exit-and-reboot=====
-exit
-EOF
+EOFCHROOT
 
 echo ""
 
 
-echo "Installation of base system finsished!"
+echo "Installation of base system finished!"
 
 umount -R /mnt
 
