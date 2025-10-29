@@ -194,7 +194,7 @@ else
 fi
 
 #=====copy-configs=====
-cp -f /home/$username/GonOs/ConfigFiles/hypr/hyprland.conf /home/$username/.config/hypr/hyprland.conf
+cp -f /root/GonOs/ConfigFiles/hypr/hyprland.conf /mnt/home/$username/.config/hypr/hyprland.conf
 
 
 #====enable-services
