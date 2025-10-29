@@ -194,8 +194,9 @@ else
 fi
 
 #=====copy-configs=====
+mkdir -p /mnt/home/$username/.config/hypr
 cp -f /root/GonOs/ConfigFiles/hypr/hyprland.conf /mnt/home/$username/.config/hypr/hyprland.conf
-
+chown -R $username:$username /mnt/home/$username/.config
 
 #====enable-services
 systemctl enable seatd.service
