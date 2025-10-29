@@ -194,7 +194,7 @@ else
 fi
 
 #=====copy-configs=====
-cp -f ../ConfigFiles/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
+cp -f ~/ConfigFiles/hypr/hyprland.conf ~/.config/hypr/hyprland.conf
 
 
 #====enable-services
