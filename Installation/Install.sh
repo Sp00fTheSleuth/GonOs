@@ -58,6 +58,14 @@ echo "******************************"
 [[ "$confirm" == "YES" ]] || { echo "Aborted."; exit 1; }
 
 
+    # ===formatting-partitions===
+    if [[ "$disk" == *"nvme"* ]]; then # this creates the variables based on if its an nvme or not.
+        EFI_PART="${disk}p1"
+        ROOT_PART="${disk}p2"
+    else
+        EFI_PART="${disk}1"
+        ROOT_PART="${disk}2"
+    fi
 
 
 
@@ -86,14 +94,6 @@ if [ -d /sys/firmware/efi/efivars ]; then # Test if file exists
     echo ""
     # === SHOW RESULT ===
     parted "$disk" print
-    # ===formatting-partitions===
-    if [[ "$disk" == *"nvme"* ]]; then # this creates the variables based on if its an nvme or not.
-        EFI_PART="${disk}p1"
-        ROOT_PART="${disk}p2"
-    else
-        EFI_PART="${disk}1"
-        ROOT_PART="${disk}2"
-    fi
 
     echo ""
     echo ">>> Formatting partitions..."
